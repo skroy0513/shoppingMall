@@ -21,7 +21,7 @@
 	</div>
 </nav>
 <div class="container">
-	<h1>인사관리 시스템</h1>
+	<h1>상관리 시스템</h1>
 </div>
 </body>
 </html>
