@@ -3,15 +3,26 @@ package dao;
 import java.util.List;
 
 import util.DaoHelper;
+import vo.Category;
 import vo.Product;
 
 public class ProductDao {
+	
+	/**
+	 * 전체 상품의 개수를 반환한다.
+	 * @return 상품의 총 개수
+	 */
+	public int getTotalRows() {
+		return DaoHelper.selectOne("productDao.getTotalRows", rs -> {
+			return rs.getInt("cnt");
+		});
+	}
 
 	/**
 	 * 전체 상품 목록을 반환한다.
 	 * @return 전체 상품 목록
 	 */
-	public List<Product> getProducts() {
+	public List<Product> getProducts(int begin, int end) {
 		return DaoHelper.selectList("productDao.getProducts", rs -> {
 			Product product = new Product();
 			product.setNo(rs.getInt("product_no"));
@@ -21,7 +32,7 @@ public class ProductDao {
 			product.setDiscountPrice(rs.getInt("product_discount_price"));
 			
 			return product;
-		});
+		}, begin, end);
 	}
 	
 	/**
@@ -34,7 +45,9 @@ public class ProductDao {
 													product.getDescription(), 
 													product.getPrice(), 
 													product.getDiscountPrice(), 
-													product.getStock());
+													product.getStock(),
+													product.getCategory().getNo());
+														
 	}
 	
 	/**
@@ -56,6 +69,11 @@ public class ProductDao {
 			product.setCreateDate(rs.getDate("product_create_date"));
 			product.setUpdateDate(rs.getDate("product_update_date"));
 			
+			Category cat = new Category();
+			cat.setNo(rs.getInt("cat_no"));
+			cat.setName(rs.getString("cat_name"));
+			product.setCategory(cat);
+			
 			return product;
 		}, no);
 	}
@@ -66,5 +84,21 @@ public class ProductDao {
 	 */
 	public void deleteProductByNo(int no) {
 		DaoHelper.update("productDao.deleteProductByNo", no);
+	}
+	
+	/**
+	 * 전달받은 상품번호에 해당하는 상품정보를 수정한다.
+	 * @param product 수정된 정보가 담긴 상품 객체
+	 */
+	public void updateProduct(Product product) {
+		DaoHelper.update("productDao.updateProduct", product.getName(),
+													 product.getMaker(),
+													 product.getDescription(),
+													 product.getPrice(),
+													 product.getDiscountPrice(),
+													 product.getOnSell(),
+													 product.getStock(),
+													 product.getCategory().getNo(),
+													 product.getNo());	
 	}
 }

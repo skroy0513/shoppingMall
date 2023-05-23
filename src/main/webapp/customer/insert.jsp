@@ -19,8 +19,20 @@
 	customer.setEmail(email);
 	
 	CustomerDao dao = new CustomerDao();
+	
+	// 아이디 중복체크
+	if (dao.getCustomerById(id) != null) {
+		response.sendRedirect("form.jsp?err=id");
+		return;
+	}
+	// 이메일 중복체크
+	if (dao.getCustomerByEmail(email) != null) {
+		response.sendRedirect("form.jsp?err=email");
+		return;
+	}
+	// 회원정보 저장하기
 	dao.insertCustomer(customer);
 	
 	// 재요청 URL불러오기
-	response.sendRedirect("list.jsp");
+	response.sendRedirect("registered.jsp");
 %>

@@ -1,3 +1,4 @@
+<%@page import="vo.Customer"%>
 <%@page import="dao.CustomerDao"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%
@@ -6,7 +7,9 @@
 
 	// 업무 로직 수행
 	CustomerDao dao = new CustomerDao();
-	dao.disableCustomer(id);
+	Customer customer = dao.getCustomerById(id);
+	customer.setDisabled("Yes");
+	dao.updateCustomer(customer);
 	
 	// 재요청 URL
 	response.sendRedirect("list.jsp");

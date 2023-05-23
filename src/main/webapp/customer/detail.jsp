@@ -4,6 +4,7 @@
 <%
 	// 요청 파라미터 조회
 	String id = request.getParameter("id");
+	String err = request.getParameter("err");
 
 	// 업무 로직 조회
 	CustomerDao dao = new CustomerDao();
@@ -23,20 +24,7 @@
 </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-   <div class="container">
-      <ul class="navbar-nav me-auto">
-         <li class="nav-item"><a class="nav-link" href="/app3/home.jsp">홈</a></li>
-         <li class="nav-item"><a class="nav-link" href="/app3/product/list.jsp">상품관리</a></li>
-         <li class="nav-item"><a class="nav-link active" href="/app3/customer/list.jsp">고객 관리</a></li>
-         <li class="nav-item"><a class="nav-link disabled" href="">게시판 관리</a></li>
-      </ul>
-      <ul class="navbar-nav">
-         <li class="nav-item"><a class="nav-link disabled" href="">로그인</a></li>
-         <li class="nav-item"><a class="nav-link" href="/app3/customer/form.jsp">회원가입</a></li>
-      </ul>
-   </div>
-</nav>
+<%@ include file="../nav.jsp" %>
 <div class="container my-3">
 	<div class="row mb-3">
 		<div class="col-12">
@@ -46,6 +34,16 @@
 	<div class="row mb-3">
 		<div class="col-12">
 			<p>고객의 상세정보를 확인하세요.</p>
+			
+<%
+	if ("fail".equals(err)) {
+%>
+			<div class="alert alert-danger">
+				<strong>삭제 실패</strong> 사용중인 고객은 삭제할 수 없습니다.
+			</div>
+<%
+	}
+%>
 			
 			<table class="table table-bordered">
 				<colgroup>
@@ -71,7 +69,20 @@
 						<th class="table-dark">적립포인트</th>
 						<td><%=customer.getPoint() %></td>
 						<th class="table-dark">탈퇴여부</th>
-						<td><%=customer.getDisabled() %></td>
+						<td>
+							<%="No".equals(customer.getDisabled()) ? "<span class='badge text-bg-primary'>사용중</span>" : "<span class='badge text-bg-secondary'>탈퇴</span>" %>
+							<%
+		if ("No".equals(customer.getDisabled())) {
+%>
+						<a href="disable.jsp?id=<%=customer.getId() %>" class="btn btn-outline-danger btn-xs">탈퇴처리</a>
+<%			
+		} else if("Yes".equals(customer.getDisabled())) {
+%>
+						<a href="enable.jsp?id=<%=customer.getId() %>" class="btn btn-outline-success btn-xs">복구처리</a>
+<%		
+		}
+%>
+						</td>
 					</tr>
 					<tr>
 						<th class="table-dark">가입일자</th>
@@ -82,8 +93,14 @@
 				</tbody>
 			</table>
 			<div class="text-end">
-				<a href="delete.jsp?id=hong" class="btn btn-danger btn-sm">삭제</a>
-				<a href="modifyform.jsp?id=hong" class="btn btn-warning btn-sm">수정</a>
+			<%
+				if ("Yes".equals(customer.getDisabled())) {
+			%>
+				<a href="delete.jsp?id=<%=customer.getId() %>" class="btn btn-danger btn-sm">삭제</a>
+			<%
+				}
+			%>
+				<a href="modifyform.jsp?id=<%=customer.getId() %>" class="btn btn-warning btn-sm">수정</a>
 				<a href="list.jsp" class="btn btn-primary btn-sm">목록</a>
 			</div>
 		</div>

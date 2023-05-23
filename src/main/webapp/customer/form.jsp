@@ -1,4 +1,7 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
+<%
+	String err = request.getParameter("err");
+%>
 <!doctype html>
 <html lang="ko">
 <head>
@@ -10,20 +13,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 </head>
 <body>
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-   <div class="container">
-      <ul class="navbar-nav me-auto">
-         <li class="nav-item"><a class="nav-link" href="/app3/home.jsp">홈</a></li>
-         <li class="nav-item"><a class="nav-link" href="/app3/product/list.jsp">상품관리</a></li>
-         <li class="nav-item"><a class="nav-link" href="/app3/customer/list.jsp">고객 관리</a></li>
-         <li class="nav-item"><a class="nav-link disabled" href="">게시판 관리</a></li>
-      </ul>
-      <ul class="navbar-nav">
-         <li class="nav-item"><a class="nav-link disabled" href="">로그인</a></li>
-         <li class="nav-item"><a class="nav-link active" href="/app3/customer/form.jsp">회원가입</a></li>
-      </ul>
-   </div>
-</nav>
+<%@ include file="../nav.jsp" %>
 <div class="container my-3">
 	<div class="row mb-3">
 		<div class="col-12">
@@ -34,6 +24,21 @@
 		<div class="col-12">
 			<p>신규 고객정보를 입력하세요.</p>
 			
+<%
+	if ("id".equals(err)) {
+%>			
+			<div class="alert alert-danger">
+				<strong>회원가입 실패</strong> 이미 사용중인 아이디로 가입할 수 없습니다.
+			</div>
+<%
+	} else if ("email".equals(err)) {
+%>
+			<div class="alert alert-danger">
+				<strong>회원가입 실패</strong> 이미 사용중인 이메일로 가입할 수 없습니다.
+			</div>
+<%
+	}
+%>
 			<form class="border bg-light p-3" method="post" action="insert.jsp">
 				<div class="form-group mb-2">
 					<label class="form-label">아이디</label>
