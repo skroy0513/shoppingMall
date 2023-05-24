@@ -88,7 +88,9 @@
 <%
 	for (int i = pagination.getBeginPage(); i <= pagination.getEndPage(); i++) {
 %>
-				    <li class="page-item <%=i == pageNo ? "active" : "" %>"><a class="page-link" href="list.jsp?page=<%=i %>"><%=i %></a></li>
+				    <li class="page-item <%=i == pageNo ? "active" : "" %>">
+				    	<a class="page-link" href="list.jsp?page=<%=i %>"><%=i %></a>
+				    	</li>
 <%
 	}
 %>

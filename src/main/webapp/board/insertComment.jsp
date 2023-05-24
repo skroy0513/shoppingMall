@@ -26,9 +26,7 @@
 	// Board 객체에 댓글 수 업데이트
 	BoardDao boardDao = new BoardDao();
 	Board savedBoard = boardDao.getBoardByNo(boardNo);
-	System.out.println(savedBoard.getCommentCnt());
 	savedBoard.setCommentCnt(savedBoard.getCommentCnt() + 1);
-	System.out.println(savedBoard.getCommentCnt());
 	boardDao.updateBoard(savedBoard);
 	
 	// 재요청 URL

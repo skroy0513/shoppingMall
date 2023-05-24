@@ -1,14 +1,22 @@
+<%@page import="util.StringUtils"%>
+<%@page import="dto.Pagination"%>
 <%@page import="vo.Board"%>
 <%@page import="java.util.List"%>
 <%@page import="dao.BoardDao"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%
 	// 요청 파라미터 조회
+	int pageNo = StringUtils.stringToInt(request.getParameter("page"), 1);
 	
 	// 업무로직 수행
 	BoardDao boardDao = new BoardDao();
-	List<Board> boardList = boardDao.getBoards();
+	int totalRows = boardDao.getTotalRows();
+	String loginId = (String) session.getAttribute("loginId");
 	
+	// 페이지 처리
+	Pagination pagination = new Pagination(pageNo, totalRows);
+	
+	List<Board> boardList = boardDao.getBoards(pagination.getBegin(), pagination.getEnd());
 	// 재요청 URL
 	
 %>
@@ -41,7 +49,8 @@
 			
 			<table class="table table-sm">
 				<colgroup>
-					<col width="10%">
+					<col width="5%">
+					<col width="5%">
 					<col width="45%">
 					<col width="15%">
 					<col width="15%">
@@ -49,7 +58,7 @@
 				</colgroup>
 				<thead>
 					<tr>
-						<th>번호</th>
+						<th colspan="2">번호</th>
 						<th>제목</th>
 						<th>작성자</th>
 						<th>댓글갯수</th>
@@ -61,7 +70,16 @@
 	for (Board board : boardList) {
 %>
 					<tr>
-						<td><%=board.getNo() %></td>
+						<td colspan=<%="Y".equals(board.getDeleted()) ? "" : "2" %>><%=board.getNo() %></td>
+<%
+		if ("Y".equals(board.getDeleted())) {
+%>
+						<td>
+							<span class='btn btn-danger btn-xs'>삭제됨</span>
+						</td>
+<%		
+		}
+%>						
 						<td><a href="detail.jsp?no=<%=board.getNo() %>"><%=board.getTitle() %></a></td>
 						<td><%=board.getCustomer().getName() %></td>
 						<td><%=board.getCommentCnt() %></td>
@@ -74,27 +92,32 @@
 			</table>
 			<nav>
 				<ul class="pagination justify-content-center">
-					<li class="page-item disabled">
-						<a href="list.jsp?page=1" class="page-link">이전</a>
+					<li class="page-item <%=pagination.getCurrentBlock() <=1 ? "disabled" : "" %>">
+						<a href="list.jsp?page=<%=(pagination.getCurrentBlock() - 2)*5 + 1 %>" class="page-link">이전</a>
 					</li>
-					<li class="page-item active">
-						<a href="list.jsp?page=1" class="page-link">1</a>
+<%
+	for (int i = pagination.getBeginPage(); i <= pagination.getEndPage(); i++) {
+%>
+					<li class="page-item <%=i == pageNo ? "active" : "" %>">
+						<a href="list.jsp?page=<%=i %>" class="page-link"><%=i %></a>
 					</li>
-					<li class="page-item">
-						<a href="list.jsp?page=2" class="page-link">2</a>
-					</li>
-					<li class="page-item">
-						<a href="list.jsp?page=3" class="page-link">3</a>
-					</li>
-					<li class="page-item ">
-						<a href="list.jsp?page=2" class="page-link">다음</a>
+<%
+	}
+%>
+					<li class="page-item <%=pagination.getCurrentBlock() >= pagination.getTotalBlocks() ? "disabled" : "" %>">
+						<a href="list.jsp?page=<%=(pagination.getCurrentBlock()*5) + 1 %>" class="page-link">다음</a>
 					</li>
 				</ul>
 			</nav>
-			
+<%
+	if (loginId != null) {
+%>
 			<div class="text-end">
 				<a href="form.jsp" class="btn btn-primary btn-sm">새 게시글 등록</a>
 			</div>
+<%
+	}
+%>
 		</div>
 	</div>
 </div>

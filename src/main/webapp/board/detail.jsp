@@ -8,6 +8,7 @@
 <%
 	// 요청 파라미터 조회
 	int no = Integer.parseInt(request.getParameter("no"));
+	String loginId = (String) session.getAttribute("loginId");
 	
 	// 업무로직 수행
 	BoardDao boardDao = new BoardDao();
@@ -70,15 +71,34 @@
 						<th class="table-dark">최종수정일자</th>
 						<td><%=board.getUpdateDate() %></td>
 					</tr>
+					<tr>
+						<th class="table-dark">내용</th>
+						<td colspan="3"><%=board.getContent() %></td>
+					</tr>
 				</tbody>
 			</table>
 			<div class="text-end">
-				<a href="delete.jsp?no=글번호" class="btn btn-danger btn-sm">삭제</a>
-				<a href="modifyform.jsp?no=글번호" class="btn btn-warning btn-sm">수정</a>
+<%
+	if (board.getCustomer().getId().equals(loginId)) {
+		if ("N".equals(board.getDeleted())) {
+%>
+				<a href="delete.jsp?no=<%=board.getNo() %>" class="btn btn-danger btn-sm">삭제</a>
+				<a href="modifyform.jsp?no=<%=board.getNo() %>" class="btn btn-warning btn-sm">수정</a>
+<%
+		} else if ("Y".equals(board.getDeleted())) {
+%>
+				<a href="recover.jsp?no=<%=board.getNo() %>" class="btn btn-success btn-sm">복구</a>
+<%			
+		}
+	}
+%>
 				<a href="list.jsp" class="btn btn-primary btn-sm">목록</a>
 			</div>
 		</div>
 	</div>
+<%
+	if ("N".equals(board.getDeleted())) {
+%>
 	<div class="row mb-3">
    		<div class="col-12">
 			<form class="border bg-light p-2" method="post" action="insertComment.jsp">
@@ -97,7 +117,7 @@
 	<div class="row mb-3">
    		<div class="col-12">
 <%
-	for (Comment comment : commentList) {
+		for (Comment comment : commentList) {
 %>
    			<div class="border p-2 mb-2">
 	   			<div class="d-flex justify-content-between mb-1">
@@ -110,10 +130,13 @@
 	   			</div>
    			</div>
 <%
-	}
+		}
 %>   			
    		</div>
    	</div>
+<%
+	}
+%>
 </div>
 </body>
 </html>

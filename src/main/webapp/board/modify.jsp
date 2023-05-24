@@ -1,20 +1,15 @@
-<%@page import="vo.Customer"%>
 <%@page import="vo.Board"%>
 <%@page import="dao.BoardDao"%>
 <%@page import="java.net.URLEncoder"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%
 	// 요청 파라미터 조회
+	int no = Integer.parseInt(request.getParameter("no"));
 	String title = request.getParameter("title");
 	String content = request.getParameter("content");
+	String loginId = (String) session.getAttribute("loginId");
 	
 	// 업무로직 수행
-	String loginId = (String) session.getAttribute("loginId");
-	if (loginId == null) {
-		response.sendRedirect("../loginform.jsp?err=req&job=" + URLEncoder.encode("게시글작성", "utf-8"));
-		return;
-	}
-	
 	if (title.equals("")) {
 		response.sendRedirect("form.jsp?err=title&job=" + URLEncoder.encode("제목", "utf-8"));
 		return;
@@ -23,16 +18,12 @@
 		response.sendRedirect("form.jsp?err=content&job=" + URLEncoder.encode("내용", "utf-8"));
 		return;
 	}
-	
-	Board board = new Board();
-	board.setTitle(title);
-	board.setContent(content);
-	board.setCustomer(new Customer(loginId));
-	
 	BoardDao boardDao = new BoardDao();
-	boardDao.insertBoard(board);
+	Board savedBoard = boardDao.getBoardByNo(no);
+	savedBoard.setTitle(title);
+	savedBoard.setContent(content);
+	boardDao.updateBoard(savedBoard);
 	
-	// 재요청 URL 응답
+	// 재요청 URL
 	response.sendRedirect("list.jsp");
-
 %>
