@@ -10,9 +10,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 </head>
 <body>
-<%@ include file="nav.jsp" %>
+<jsp:include page="nav.jsp" >
+	 <jsp:param value="홈" name="menu"/>
+</jsp:include>
 <div class="container">
-	<h1>상품관리 시스템</h1>
+	<h1>쇼핑몰 관리 시스템</h1>
 </div>
 </body>
 </html>

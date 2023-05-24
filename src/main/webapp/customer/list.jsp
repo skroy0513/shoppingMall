@@ -20,7 +20,9 @@
 </style>
 </head>
 <body>
-<%@ include file="../nav.jsp" %>
+<jsp:include page="../nav.jsp" >
+	<jsp:param value="고객" name="menu"/>
+</jsp:include>
 <div class="container my-3">
 	<div class="row mb-3">
 		<div class="col-12">

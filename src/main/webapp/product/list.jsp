@@ -33,7 +33,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 </head>
 <body>
-<%@ include file="../nav.jsp" %>
+<jsp:include page="../nav.jsp" >
+	<jsp:param value="상품" name="menu"/>
+</jsp:include>
 <div class="container my-3">
 	<div class="row mb-3">
 		<div class="col-12">

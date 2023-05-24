@@ -17,6 +17,10 @@ public class Product {
 	private Category category;
 	
 	public Product() {}
+	
+	public Product(int no) {
+		this.no = no;
+	}
 
 	public int getNo() {
 		return no;
