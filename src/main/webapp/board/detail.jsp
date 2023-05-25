@@ -31,6 +31,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <style type="text/css">
+	table {white-space: break-spaces;}
 	.btn.btn-xs {--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;}
 </style>
 </head>
@@ -75,7 +76,7 @@
 					</tr>
 					<tr>
 						<!-- <th class="table-dark">내용</th> -->
-						<td colspan="4"><%=board.getContent().replace(" ", "&nbsp").replaceAll("\n", "<br>") %></td>
+						<td colspan="4"><%=board.getContent() %></td>
 					</tr>
 				</tbody>
 			</table>
