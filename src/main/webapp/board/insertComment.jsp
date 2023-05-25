@@ -16,6 +16,10 @@
 		response.sendRedirect("../loginform.jsp?err=req&job=" + URLEncoder.encode("댓글작성", "utf-8"));
 		return;
 	}
+	if (content == "") {
+		response.sendRedirect("detail.jsp?no=" + boardNo + "&err=req");
+		return;
+	}
 	Comment comment = new Comment();
 	comment.setBoard(new Board(boardNo));
 	comment.setContent(content);

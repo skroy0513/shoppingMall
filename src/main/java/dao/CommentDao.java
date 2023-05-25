@@ -29,4 +29,12 @@ public class CommentDao {
 			return comment;
 		}, boardNo);
 	}
+	
+	public void updateComment(Comment comment) {
+		DaoHelper.update("commentDao.updateCommentByNo", comment.getContent(), comment.getNo());
+	}
+	
+	public void deleteComment(int commentNo) {
+		DaoHelper.update("commentDao.deleteCommentByNo", commentNo);
+	}
 }

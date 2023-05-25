@@ -9,6 +9,7 @@
 	// 요청 파라미터 조회
 	int no = Integer.parseInt(request.getParameter("no"));
 	String loginId = (String) session.getAttribute("loginId");
+	String err = request.getParameter("err");
 	
 	// 업무로직 수행
 	BoardDao boardDao = new BoardDao();
@@ -26,6 +27,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <style type="text/css">
@@ -73,7 +75,7 @@
 					</tr>
 					<tr>
 						<th class="table-dark">내용</th>
-						<td colspan="3"><%=board.getContent() %></td>
+						<td colspan="3"><%=board.getContent().replace(" ", "&nbsp").replaceAll("\n", "<br>") %></td>
 					</tr>
 				</tbody>
 			</table>
@@ -81,8 +83,12 @@
 <%
 	if (board.getCustomer().getId().equals(loginId)) {
 		if ("N".equals(board.getDeleted())) {
+			if (board.getCommentCnt() == 0) {
 %>
 				<a href="delete.jsp?no=<%=board.getNo() %>" class="btn btn-danger btn-sm">삭제</a>
+<% 
+			}
+%>
 				<a href="modifyform.jsp?no=<%=board.getNo() %>" class="btn btn-warning btn-sm">수정</a>
 <%
 		} else if ("Y".equals(board.getDeleted())) {
@@ -101,11 +107,22 @@
 %>
 	<div class="row mb-3">
    		<div class="col-12">
+			<div class="col-6">
+<%
+			if ("req".equals(err)) {
+%>
+				<div class="alert alert-danger">
+					<strong>작성 실패</strong> 내용을 적으세요
+				</div>
+<%		
+			}
+%>		
+			</div>
 			<form class="border bg-light p-2" method="post" action="insertComment.jsp">
 				<input type="hidden" name="boardNo" value="<%=board.getNo() %>" />
  				<div class="row">
 					<div class="col-11">
-						<textarea rows="2" class="form-control" name="content"></textarea>
+						<textarea rows="2" class="form-control" name="content" required></textarea>
 					</div>
 					<div class="col-1">
 						<button class="btn btn-outline-primary h-100">등록</button>
@@ -125,8 +142,16 @@
 	   			</div>
 	   			<div>
 	   				<%=comment.getContent() %>
+<%
+			if (comment.getCustomer().getId().equals(loginId)) {		
+%>
 	   				<a href="deleteComment.jsp?no=<%=no %>&cno=<%=comment.getNo() %>" 
 	   					class="btn btn-link text-danger text-decoration-none float-end"><i class="bi bi-trash"></i></a>
+	   				<a href="updateComment.jsp?no=<%=no %>&cno=<%=comment.getNo() %>" 
+	   					class="btn btn-link text-dark text-decoration-none float-end mr-1"><i class="bi bi-pencil"></i></a>
+<%
+			}
+%>
 	   			</div>
    			</div>
 <%

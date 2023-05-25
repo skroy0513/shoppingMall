@@ -80,7 +80,7 @@
 <%		
 		}
 %>						
-						<td><a href="detail.jsp?no=<%=board.getNo() %>"><%=board.getTitle() %></a></td>
+						<td><a href="read.jsp?no=<%=board.getNo() %>"><%=board.getTitle() %></a></td>
 						<td><%=board.getCustomer().getName() %></td>
 						<td><%=board.getCommentCnt() %></td>
 						<td><%=board.getCreateDate() %></td>
