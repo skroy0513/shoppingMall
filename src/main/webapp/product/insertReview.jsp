@@ -3,7 +3,7 @@
 <%@page import="vo.Customer"%>
 <%@page import="vo.Review"%>
 <%@page import="java.net.URLEncoder"%>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%
 	// 요청 파라미터 조회
 	int productNo = Integer.parseInt(request.getParameter("productNo"));

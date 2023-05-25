@@ -52,8 +52,9 @@
 					<col width="5%">
 					<col width="5%">
 					<col width="45%">
-					<col width="15%">
-					<col width="15%">
+					<col width="10%">
+					<col width="10%">
+					<col width="10%">
 					<col width="15%">
 				</colgroup>
 				<thead>
@@ -61,7 +62,8 @@
 						<th colspan="2">번호</th>
 						<th>제목</th>
 						<th>작성자</th>
-						<th>댓글갯수</th>
+						<th>댓글수</th>
+						<th>조회수</th>
 						<th>등록일</th>
 					</tr>
 				</thead>
@@ -83,6 +85,7 @@
 						<td><a href="read.jsp?no=<%=board.getNo() %>"><%=board.getTitle() %></a></td>
 						<td><%=board.getCustomer().getName() %></td>
 						<td><%=board.getCommentCnt() %></td>
+						<td><%=board.getReadCnt() %></td>
 						<td><%=board.getCreateDate() %></td>
 					</tr>
 <%

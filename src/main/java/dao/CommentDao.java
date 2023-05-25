@@ -3,6 +3,7 @@ package dao;
 import java.util.List;
 
 import util.DaoHelper;
+import vo.Board;
 import vo.Comment;
 import vo.Customer;
 
@@ -36,5 +37,18 @@ public class CommentDao {
 	
 	public void deleteComment(int commentNo) {
 		DaoHelper.update("commentDao.deleteCommentByNo", commentNo);
+	}
+	
+	public Comment getCommentByNo(int commentNo) {
+		return DaoHelper.selectOne("commentDao.getCommentByNo", rs -> {
+			Comment comment = new Comment();
+			comment.setNo(rs.getInt("comment_no"));
+			comment.setContent(rs.getString("comment_content"));
+			comment.setCreateDate(rs.getDate("comment_create_date"));
+			comment.setCustomer(new Customer(rs.getString("cust_id")));
+			comment.setBoard(new Board(rs.getInt("board_no")));
+			
+			return comment;
+		}, commentNo);
 	}
 }

@@ -1,5 +1,5 @@
 <%@page import="dao.ProductDao"%>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%
 	// 요청 URL - localhost/app3/product/delete.jsp?no=xxx
 	// 요청 파라미터값 조회

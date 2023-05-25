@@ -1,7 +1,14 @@
+<%@page import="java.net.URLEncoder"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%
 	String err = request.getParameter("err");
 	String job = request.getParameter("job");
+	String loginId = (String) session.getAttribute("loginId");
+	if (loginId == null) {
+		response.sendRedirect("../loginform.jsp?err=req&job=" + URLEncoder.encode("게시글작성", "utf-8"));
+		return;
+	}
+	
 %>
 <!doctype html>
 <html lang="ko">

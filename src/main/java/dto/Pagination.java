@@ -25,13 +25,13 @@ public class Pagination {
 	}
 	
 	public int getTotalBlocks() {
-		return (int) Math.ceil((double) getTotalPages()/pages);
-//		return (getTotalPages() - 1)/pages + 1;
+//		return (int) Math.ceil((double) getTotalPages()/pages);
+		return (getTotalPages() - 1)/pages + 1;
 	}
 	
 	public int getCurrentBlock() {
-		return (int) Math.ceil((double) page/pages);
-//		return (page - 1)/pages + 1;
+//		return (int) Math.ceil((double) page/pages);
+		return (page - 1)/pages + 1;
 	}
 	
 	public int getBeginPage() {

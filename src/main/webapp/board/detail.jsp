@@ -74,8 +74,8 @@
 						<td><%=board.getUpdateDate() %></td>
 					</tr>
 					<tr>
-						<th class="table-dark">내용</th>
-						<td colspan="3"><%=board.getContent().replace(" ", "&nbsp").replaceAll("\n", "<br>") %></td>
+						<!-- <th class="table-dark">내용</th> -->
+						<td colspan="4"><%=board.getContent().replace(" ", "&nbsp").replaceAll("\n", "<br>") %></td>
 					</tr>
 				</tbody>
 			</table>

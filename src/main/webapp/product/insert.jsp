@@ -2,7 +2,7 @@
 <%@page import="dao.CategoryDao"%>
 <%@page import="dao.ProductDao"%>
 <%@page import="vo.Product"%>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%
 	// 요청파라미터값 조회
 	String name = request.getParameter("name");

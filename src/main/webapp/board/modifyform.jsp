@@ -1,3 +1,4 @@
+<%@page import="java.net.URLEncoder"%>
 <%@page import="vo.Board"%>
 <%@page import="dao.BoardDao"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
@@ -6,11 +7,19 @@
 	int no = Integer.parseInt(request.getParameter("no"));
 	String err = request.getParameter("err");
 	String job = request.getParameter("job");
+	String loginId = (String) session.getAttribute("loginId");
+	if (loginId == null) {
+		response.sendRedirect("../loginform.jsp?err=req&job=" + URLEncoder.encode("게시글수정", "utf-8"));
+		return;
+	}
 
 	// 업무 로직 수행
 	BoardDao boardDao = new BoardDao();
 	Board board = boardDao.getBoardByNo(no);
-	
+	if (!board.getCustomer().getId().equals(loginId)){
+		response.sendRedirect("detail.jsp?no="+ no +"&err=id&job=" + URLEncoder.encode("게시글수정", "utf-8"));
+		return;
+	}
 %>
 <!doctype html>
 <html lang="ko">
@@ -39,13 +48,13 @@
 	if ("title".equals(err)) {
 %>
 			<div class="alert alert-danger">
-				<strong>게시글 등록 실패</strong> [<%=job %>]을 입력하세요.
+				<strong>게시글 수정 실패</strong> [<%=job %>]을 입력하세요.
 			</div>
 <%
 	} else if ("content".equals(err)) {
 %>
 			<div class="alert alert-danger">
-				<strong>게시글 등록 실패</strong> [<%=job %>]을 입력하세요.
+				<strong>게시글 수정 실패</strong> [<%=job %>]을 입력하세요.
 			</div>
 <%
 	}
