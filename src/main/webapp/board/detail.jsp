@@ -31,7 +31,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <style type="text/css">
-	table {white-space: break-spaces;}
+	.title, .content {white-space: break-spaces;}
 	.btn.btn-xs {--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;}
 </style>
 </head>
@@ -57,7 +57,7 @@
 				</colgroup>
 				<tbody>
 					<tr>
-						<th class="table-dark">제목</th>
+						<th class="table-dark title">제목</th>
 						<td><%=board.getTitle() %></td>
 						<th class="table-dark">작성자</th>
 						<td><%=board.getCustomer().getName() %></td>
@@ -75,8 +75,21 @@
 						<td><%=board.getUpdateDate() %></td>
 					</tr>
 					<tr>
-						<!-- <th class="table-dark">내용</th> -->
-						<td colspan="4"><%=board.getContent() %></td>
+						<th class="table-dark">첨부파일</th>
+						<td colspan="3">
+<%
+	if (board.getFilename() != null) {
+%>
+						<%=board.getOriginalFilename() %>
+						<a href="download?no=<%=board.getNo() %>" class="btn btn-outline-primary btn-xs ms-3">다운로드</a>
+<%
+	}
+%>
+						</td>
+					</tr>
+					<tr>
+						<th class="table-dark content">내용</th>
+						<td colspan="3" height="100px"><%=board.getContent() %></td>
 					</tr>
 				</tbody>
 			</table>

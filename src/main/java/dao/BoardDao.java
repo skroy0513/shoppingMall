@@ -15,7 +15,10 @@ public class BoardDao {
 	}
 	
 	public void insertBoard(Board board) {
-		DaoHelper.update("boardDao.insertBoard", board.getTitle(), board.getContent(), board.getCustomer().getId());
+		DaoHelper.update("boardDao.insertBoard", board.getTitle(), 
+				board.getContent(), 
+				board.getCustomer().getId(),
+				board.getFilename());
 	}
 	
 	public List<Board> getBoards(int begin, int end) {
@@ -48,6 +51,8 @@ public class BoardDao {
 			board.setDeleted(rs.getString("board_deleted"));
 			board.setUpdateDate(rs.getDate("board_update_date"));
 			board.setCreateDate(rs.getDate("board_create_date"));
+			board.setFilename(rs.getString("board_filename"));
+			
 			Customer customer = new Customer();
 			customer.setId(rs.getString("cust_id"));
 			customer.setName(rs.getString("cust_name"));
